@@ -1,27 +1,20 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'maven-3'
-    }
-
     environment {
         AWS_REGION = 'ap-south-1'
-        ECR_REPO = 'splito'
+        ECR_REPO = 'notification-service'
         IMAGE_TAG = "${BUILD_NUMBER}"
         AWS_ACCOUNT_ID = '712163226335'
     }
 
     stages {
 
-        stage('Build splito-events') {
+        stage('Checkout') {
             steps {
-                dir('../splito-events') {
-                    git branch: 'main',
-                        url: 'https://github.com/gsnisn/splito-events.git',
-                        credentialsId: 'github-token'
-                    sh 'mvn clean install'
-                }
+                git branch: 'main',
+                    url: 'https://github.com/gsnisn/notification-service.git',
+                    credentialsId: 'github-token'
             }
         }
 
